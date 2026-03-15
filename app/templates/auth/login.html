@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block title %}Вход в систему{% endblock %}
+
+{% block content %}
+    <h1>Вход в систему</h1>
+    {# Вывод сообщений об ошибках (flash) #}
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        {% for message in messages %}
+          <p style="color: red;">{{ message }}</p>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+    <form method="post">
+        <label>
+            Имя пользователя:
+            <input type="text" name="username">
+        </label><br>
+        <label>
+            Пароль:
+            <input type="password" name="password">
+        </label><br>
+        <button type="submit">Войти</button>
+    </form>
+{% endblock %}
