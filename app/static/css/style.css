@@ -1,0 +1,166 @@
+/* static/css/styles.css */
+:root {
+  --primary: #2563eb;
+  --primary-hover: #1d4ed8;
+  --text-main: #1f2937;
+  --text-muted: #6b7280;
+  --border: #d1d5db;
+  --bg-card: #ffffff;
+  --bg-input: #f9fafb;
+  --success-bg: #dcfce7;
+  --success-text: #166534;
+  --error-bg: #fee2e2;
+  --error-text: #991b1b;
+  --radius: 10px;
+  --shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+  --transition: 0.2s ease;
+}
+
+/* Обертка формы */
+.form-wrapper {
+  max-width: 680px;
+  margin: 2.5rem auto;
+  padding: 2rem;
+  background: var(--bg-card);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+}
+
+.form-wrapper h1 {
+  margin: 0 0 1.5rem;
+  font-size: 1.75rem;
+  color: var(--text-main);
+  text-align: center;
+  font-weight: 700;
+}
+
+/* Группа полей */
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+  color: var(--text-main);
+  font-size: 0.95rem;
+}
+
+/* Поля ввода */
+.form-group input[type="text"],
+.form-group input[type="password"],
+.form-group textarea,
+.form-group input[type="file"] {
+  width: 100%;
+  padding: 0.8rem 1rem;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--bg-input);
+  font-size: 1rem;
+  color: var(--text-main);
+  box-sizing: border-box;
+  transition: border-color var(--transition), box-shadow var(--transition), background var(--transition);
+}
+
+.form-group input[type="text"]:focus,
+.form-group input[type="password"]:focus,
+.form-group textarea:focus,
+.form-group input[type="file"]:focus {
+  outline: none;
+  border-color: var(--primary);
+  background: #fff;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+}
+
+.form-group textarea {
+  min-height: 140px;
+  resize: vertical;
+  line-height: 1.5;
+}
+
+.form-group input[type="file"] {
+  padding: 0.6rem;
+  cursor: pointer;
+}
+
+.form-hint {
+  display: block;
+  margin-top: 0.4rem;
+  color: var(--text-muted);
+  font-size: 0.85rem;
+}
+
+/* Кнопка отправки */
+.btn-submit {
+  display: block;
+  width: 100%;
+  padding: 0.9rem;
+  margin-top: 2rem;
+  background: var(--primary);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 1.05rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background var(--transition), transform 0.1s;
+}
+
+.btn-submit:hover {
+  background: var(--primary-hover);
+}
+
+.btn-submit:active {
+  transform: scale(0.985);
+}
+
+/* Flash-сообщения */
+.flash-messages {
+  list-style: none;
+  padding: 0;
+  margin: 1rem auto;
+  max-width: 680px; /* Совпадает с шириной формы */
+  width: calc(100% - 2rem);
+}
+
+.flash-messages li {
+  padding: 0.8rem 1rem;
+  border-radius: 8px;
+  margin-bottom: 0.5rem;
+  font-size: 0.95rem;
+  border: 1px solid transparent;
+}
+
+.flash-success {
+  background: var(--success-bg);
+  color: var(--success-text);
+  border-color: #bbf7d0;
+}
+
+.flash-error {
+  background: var(--error-bg);
+  color: var(--error-text);
+  border-color: #fecaca;
+}
+
+/* Адаптивность */
+@media (max-width: 640px) {
+  .form-wrapper {
+    margin: 1rem;
+    padding: 1.5rem;
+  }
+
+  .btn-submit {
+    padding: 0.8rem;
+  }
+}
+
+.tasks-grid { display: grid; gap: 1.5rem; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); }
+.task-card { border: 1px solid #ddd; padding: 1.2rem; border-radius: 8px; background: #fff; }
+.task-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem; }
+.btn { padding: 0.6rem 1rem; border: none; border-radius: 5px; cursor: pointer; text-decoration: none; display: inline-block; }
+.btn-assign { background: #007bff; color: white; }
+.btn-create { background: #28a745; color: white; margin-top: 1.5rem; }
+.empty-state { text-align: center; padding: 3rem; color: #666; background: #f8f9fa; border-radius: 8px; }

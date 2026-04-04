@@ -1,6 +1,6 @@
 from flask import render_template, redirect, url_for, request, flash
 from flask_login import login_user, logout_user
-from ..models import User
+from ..models import User, UserRole
 from . import auth_bp
 
 
@@ -16,12 +16,12 @@ def login():
         if user and user.password == password:  # Для простоты без хеша
             login_user(user)
             # Перенаправление по роли
-            if user.role == 'teacher':
+            if user.role == UserRole.TEACHER:
                 return redirect(url_for('teachers.profile'))
-            elif user.role == 'student':
+            elif user.role == UserRole.STUDENT:
                 return redirect(url_for('students.profile'))
 
-        flash('Неверное имя или пароль')
+        flash('Неверное имя или пароль', 'error')
 
     return render_template('auth/login.html')
 
@@ -29,4 +29,4 @@ def login():
 @auth_bp.route('/logout')
 def logout():
     logout_user()
-    return redirect(url_for('/'))
+    return redirect(url_for('auth.login'))

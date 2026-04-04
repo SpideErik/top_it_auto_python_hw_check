@@ -1,13 +1,12 @@
 from app import create_app, db
-from app.models import User
-
+import app.models as mod
 
 def new_user(name:str):
     # Проверяем, нет ли уже такого пользователя
-    if not User.query.filter_by(username=name).first():
+    if not mod.User.query.filter_by(username=name).first():
         pw = '123'
-        role = 'teacher' if name.startswith('t') else 'student'
-        user = User(username=name, password=pw, role=role)
+        role = mod.UserRole.TEACHER if name.startswith('t') else mod.UserRole.STUDENT
+        user = mod.User(username=name, password=pw, role=role)
         db.session.add(user)
         db.session.commit()
         print(f"Пользователь {user.username} создан!")

@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="tasks-wrapper">
+    <h1>Управление задачами</h1>
+
+    {% if tasks %}
+        <div class="tasks-grid">
+            {% for task in tasks %}
+            <article class="task-card">
+                <header class="task-header">
+                    <h2>{{ task.title }}</h2>
+                    <span class="task-badge">#{{ task.id }}</span>
+                </header>
+
+                <div class="task-body">
+                    <p class="task-preview">{{ task.description | truncate(180) }}</p>
+                    <div class="task-meta">
+                        <small>Тестовый код: {{ task.test_code | length }} симв.</small>
+                        {% if task.assignments is defined %}
+                            <small>Назначений: {{ task.assignments | length }}</small>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <div class="task-actions">
+                    <a href="{{ url_for('teachers.new_assignment', task_id=task.id) }}" class="btn btn-assign">
+                        📤 Назначить студентам
+                    </a>
+                </div>
+            </article>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="empty-state">
+            <p>Задач пока нет. Создайте первую, чтобы начать работу.</p>
+        </div>
+    {% endif %}
+
+    <div class="footer-action">
+        <a href="{{ url_for('teachers.new_task') }}" class="btn btn-create">
+            ➕ Создать новую задачу
+        </a>
+    </div>
+</div>
+{% endblock %}
