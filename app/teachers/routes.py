@@ -21,10 +21,10 @@ def for_teacher(func):
 @login_required
 @for_teacher
 def profile():
-    return f"TODO: список заданий для учителя {current_user.id}"
+    return render_template('teachers/assignments.html')
 
 
-@teachers_bp.route('/tasks')
+@teachers_bp.route('/task_list')
 @login_required
 @for_teacher
 def task_list():

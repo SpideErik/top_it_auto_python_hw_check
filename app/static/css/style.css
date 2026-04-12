@@ -161,6 +161,6 @@
 .task-card { border: 1px solid #ddd; padding: 1.2rem; border-radius: 8px; background: #fff; }
 .task-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem; }
 .btn { padding: 0.6rem 1rem; border: none; border-radius: 5px; cursor: pointer; text-decoration: none; display: inline-block; }
-.btn-assign { background: #007bff; color: white; }
+.btn-blue { background: #007bff; color: white; }
 .btn-create { background: #28a745; color: white; margin-top: 1.5rem; }
 .empty-state { text-align: center; padding: 3rem; color: #666; background: #f8f9fa; border-radius: 8px; }

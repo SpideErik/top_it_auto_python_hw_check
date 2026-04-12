@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block navigation %}
+    <div class="nav1">
+        <a href="{{ url_for('teachers.task_list') }}" class="btn btn-blue">
+            Управление задачами
+        </a>
+    </div>
+
+{% endblock %}
+
+{% block content %}
+<div class="list-wrapper">
+    <h1>Назначенные задания</h1>
+
+    {% if False %}
+        <p>TODO</p>
+    {% else %}
+        <div class="empty-state">
+            <p>Назначенных заданий нет</p>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

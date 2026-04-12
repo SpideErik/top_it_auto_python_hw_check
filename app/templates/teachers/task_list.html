@@ -1,5 +1,14 @@
 {% extends "base.html" %}
 
+{% block navigation %}
+    <div class="nav1">
+        <a href="{{ url_for('teachers.profile') }}" class="btn btn-blue">
+            Назначенные задания
+        </a>
+    </div>
+
+{% endblock %}
+
 {% block content %}
 <div class="tasks-wrapper">
     <h1>Управление задачами</h1>
@@ -24,7 +33,7 @@
                 </div>
 
                 <div class="task-actions">
-                    <a href="{{ url_for('teachers.new_assignment', task_id=task.id) }}" class="btn btn-assign">
+                    <a href="{{ url_for('teachers.new_assignment', task_id=task.id) }}" class="btn btn-blue">
                         📤 Назначить студентам
                     </a>
                 </div>

@@ -1,5 +1,5 @@
 from functools import wraps
-from flask import flash, redirect, url_for
+from flask import flash, redirect, url_for, render_template
 from flask_login import login_required, current_user
 from . import students_bp
 from ..models import User, UserRole
@@ -19,4 +19,4 @@ def for_student(func):
 @login_required
 @for_student
 def profile():
-    return f"TODO: список заданий для студента {current_user.id}"
+    return render_template('students/assignments.html')

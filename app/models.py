@@ -44,4 +44,7 @@ class Assignment(db.Model):
     state = db.Column(db.Enum(AssignmentState), default=AssignmentState.ISSUED, nullable=False)
     issued = db.Column(db.Date, default=date.today)
     deadline = db.Column(db.Date)
-    answer_code = db.Column(db.Text, nullable=False)
+    answer_code = db.Column(db.Text)
+    tests_result = db.Column(db.Text)
+    grade = db.Column(db.String(10))
+    teacher_comment = db.Column(db.Text)
