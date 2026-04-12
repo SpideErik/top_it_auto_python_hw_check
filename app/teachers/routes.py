@@ -1,4 +1,5 @@
 import ast
+from functools import wraps
 from flask import render_template, redirect, url_for, request, flash
 from flask_login import login_required, current_user
 from . import teachers_bp
@@ -6,32 +7,35 @@ from .. import db
 from ..models import User, UserRole, Task
 
 
+def for_teacher(func):
+    @wraps(func)
+    def wrapper():
+        if current_user.role != UserRole.TEACHER:
+            flash('Войдите как учитель, чтобы просматривать эту страницу', 'error')
+            return redirect(url_for('auth.login'))
+        return func()
+    return wrapper
+
 
 @teachers_bp.route('/')
 @login_required
+@for_teacher
 def profile():
-    if current_user.role != UserRole.TEACHER:
-        flash('Войдите как учитель, чтобы просматривать эту страницу', 'error')
-        return redirect(url_for('auth.login'))
     return f"TODO: список заданий для учителя {current_user.id}"
 
 
 @teachers_bp.route('/tasks')
 @login_required
+@for_teacher
 def task_list():
-    if current_user.role != UserRole.TEACHER:
-        flash('Войдите как учитель, чтобы просматривать эту страницу', 'error')
-        return redirect(url_for('auth.login'))
     tasks = Task.query.order_by(Task.id.desc()).all()
     return render_template('teachers/task_list.html', tasks=tasks)
 
 
 @teachers_bp.route('/new_task', methods=['GET', 'POST'])
 @login_required
+@for_teacher
 def new_task():
-    if current_user.role != UserRole.TEACHER:
-        flash('Войдите как учитель, чтобы просматривать эту страницу', 'error')
-        return redirect(url_for('auth.login'))
     if request.method == 'POST':
         title = request.form.get('title', '').strip()
         description = request.form.get('description', '').strip()
@@ -72,8 +76,6 @@ def new_task():
 
 @teachers_bp.route('/new_assignment', methods=['GET', 'POST'])
 @login_required
+@for_teacher
 def new_assignment():
-    if current_user.role != UserRole.TEACHER:
-        flash('Войдите как учитель, чтобы просматривать эту страницу', 'error')
-        return redirect(url_for('auth.login'))
     return 'TODO'
