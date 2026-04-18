@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block title %}Назначение{% endblock %}
+
+{% block content %}
+<div class="form-wrapper">
+    <h1>Создать новое назначение</h1>
+    <p class="selected-task"> Для задачи: {{ task.title }} </p>
+    <form method="POST" enctype="multipart/form-data">
+        <input type="hidden" name="task_id" value="{{ task.id }}">
+        <div class="form-group">
+            <label for="deadline">Срок сдачи</label>
+            <input type="date" id="deadline" name="deadline" required>
+        </div>
+        <button type="submit" class="btn-submit">Назначить задание</button>
+    </form>
+</div>
+{% endblock %}

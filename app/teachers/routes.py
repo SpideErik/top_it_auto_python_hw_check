@@ -1,10 +1,12 @@
 import ast
 from functools import wraps
-from flask import render_template, redirect, url_for, request, flash
+from datetime import date
+from flask import render_template, redirect, url_for, request, flash, abort
 from flask_login import login_required, current_user
+from sqlalchemy import select
 from . import teachers_bp
 from .. import db
-from ..models import User, UserRole, Task
+from ..models import User, UserRole, Task, Assignment, AssignmentState
 
 
 def for_teacher(func):
@@ -78,4 +80,44 @@ def new_task():
 @login_required
 @for_teacher
 def new_assignment():
-    return 'TODO'
+    if request.method == 'POST':
+        task_id = int(request.form.get('task_id'))
+        try:
+            deadline = date.fromisoformat(request.form.get('deadline'))
+        except ValueError:
+            flash('Ошибка в дате', 'error')
+            task = Task.query.get_or_404(task_id, 'Задача не выбрана или не существует')
+            return render_template('teachers/new_assignment.html', task=task)
+
+        stmt = (
+            select(User.id)
+            .outerjoin(Assignment, (User.id == Assignment.user_id) & (Assignment.task_id == task_id))
+            .where(
+                User.role == UserRole.STUDENT,
+                Assignment.id  == None  # Выбираем только тех, у кого нет связи
+            )
+        )
+        user_ids = db.session.execute(stmt).scalars().all()
+        if not user_ids:
+            flash('Эта задача уже назначена всем студентам', 'info')
+            return redirect(url_for('teachers.task_list'))
+
+        assignments_to_add = [
+            Assignment(
+                task_id=task_id,
+                user_id=user_id,
+                deadline=deadline,
+            )
+            for user_id in user_ids
+        ]
+        db.session.add_all(assignments_to_add)
+        db.session.commit()
+
+        flash('Назначение успешно создано!', 'success')
+        return redirect(url_for('teachers.profile'))
+
+    task_id = request.args.get('task_id')
+    if not task_id:
+        abort(404, description = 'Задача не выбрана или не существует')
+    task = Task.query.get_or_404(task_id, 'Задача не выбрана или не существует')
+    return render_template('teachers/new_assignment.html', task=task)

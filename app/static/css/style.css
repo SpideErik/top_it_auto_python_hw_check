@@ -16,6 +16,14 @@
   --transition: 0.2s ease;
 }
 
+/* Обертка информации */
+.info-wrapper {
+  max-width: 680px;
+  padding: 0;
+  margin: 1rem auto;
+  width: calc(100% - 2rem);
+}
+
 /* Обертка формы */
 .form-wrapper {
   max-width: 680px;
@@ -164,3 +172,9 @@
 .btn-blue { background: #007bff; color: white; }
 .btn-create { background: #28a745; color: white; margin-top: 1.5rem; }
 .empty-state { text-align: center; padding: 3rem; color: #666; background: #f8f9fa; border-radius: 8px; }
+
+.card-link {
+  text-decoration: none; /* Убираем подчеркивание текста */
+  color: inherit;       /* Наследуем цвет текста */
+  display: block;      /* Чтобы ссылка вела себя как блок */
+}

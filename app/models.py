@@ -1,6 +1,5 @@
 import enum
 from datetime import date
-from flask_sqlalchemy import SQLAlchemy
 from flask_login import UserMixin
 from . import db
 
@@ -29,10 +28,10 @@ class Task(db.Model):
 
 
 class AssignmentState(enum.Enum):
-    ISSUED = 'issued'
-    REISSUED = 'reissued'
-    FINISHED = 'finished'
-    EXPIRED = 'expired'
+    ISSUED = 'issued' # задание выдано, решение не загружено
+    UNCHECKED = 'unchecked' # решение, загружено, не просмотрено преподавателем
+    FINISHED = 'finished' # задание выполнено, оценка получена
+    EXPIRED = 'expired' # задание просрочено
 
 
 class Assignment(db.Model):

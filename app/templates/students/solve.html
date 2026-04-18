@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block title %}Решение{% endblock %}
+
+{% block content %}
+<div class="info-wrapper">
+    <h1>{{ assignment.task.title }}</h1>
+    <p class="task-preview">{{ assignment.task.description }}</p>
+</div>
+<div class="form-wrapper">
+    <h1>Загрузить ответ</h1>
+    <form method="POST" enctype="multipart/form-data">
+        <div class="form-group">
+            <label for="test_file">Файл с ответом</label>
+            <input type="file" id="test_file" name="test_file" accept=".py" required>
+            <small class="form-hint">Формат: .py</small>
+        </div>
+
+        <button type="submit" class="btn-submit">Загрузить ответ</button>
+    </form>
+</div>
+{% endblock %}

@@ -1,14 +1,26 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="list-wrapper">
-    <h1>Назначенные задания</h1>
-
-    {% if False %}
-        <p>TODO</p>
+<div class="tasks-wrapper">
+    <h1>Невыполненные задания</h1>
+    {% if new %}
+        <div class="tasks-grid">
+        {% for assignment in new %}
+        <a href="{{ url_for('students.solve', assignment_id=assignment.id) }}" class="card-link">
+            <article class="task-card">
+                <header class="task-header">
+                    <h2>{{ assignment.task.title }}</h2>
+                </header>
+                <header class="task-header">
+                    <h2>Срок сдачи {{ assignment.deadline }}</h2>
+                </header>
+            </article>
+        </a>
+        {% endfor %}
+        </div>
     {% else %}
         <div class="empty-state">
-            <p>Назначенных заданий нет</p>
+            <p>Невыполненных задач нет.</p>
         </div>
     {% endif %}
 </div>
