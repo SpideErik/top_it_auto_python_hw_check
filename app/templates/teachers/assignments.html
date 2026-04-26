@@ -12,9 +12,21 @@
 {% block content %}
 <div class="list-wrapper">
     <h1>Назначенные задания</h1>
-
-    {% if False %}
-        <p>TODO</p>
+    {% if assignments %}
+        <div class="tasks-grid">
+        {% for assignment in assignments %}
+        <a href="{{ url_for('teachers.a_table', task_id=assignment[0], deadline=assignment[2]) }}" class="card-link">
+            <article class="task-card">
+                <header class="task-header">
+                    <h2>{{ assignment[1] }}</h2>
+                </header>
+                <header class="task-header">
+                    <h2>Срок сдачи {{ assignment[2] }}</h2>
+                </header>
+            </article>
+        </a>
+        {% endfor %}
+        </div>
     {% else %}
         <div class="empty-state">
             <p>Назначенных заданий нет</p>

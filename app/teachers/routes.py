@@ -23,7 +23,13 @@ def for_teacher(func):
 @login_required
 @for_teacher
 def profile():
-    return render_template('teachers/assignments.html')
+    stmt = (
+        select(Task.id, Task.title, Assignment.deadline)
+        .join(Assignment, Task.id == Assignment.task_id)
+        .distinct()
+    )
+    results = db.session.execute(stmt).all()
+    return render_template('teachers/assignments.html', assignments = results)
 
 
 @teachers_bp.route('/task_list')
@@ -121,3 +127,21 @@ def new_assignment():
         abort(404, description = 'Задача не выбрана или не существует')
     task = Task.query.get_or_404(task_id, 'Задача не выбрана или не существует')
     return render_template('teachers/new_assignment.html', task=task)
+
+
+@teachers_bp.route('/a_table')
+@login_required
+@for_teacher
+def a_table():
+    task_id = request.args.get('task_id')
+    if not task_id:
+        abort(404, description = 'Неправильные параметры')
+    try:
+        deadline = date.fromisoformat(request.args.get('deadline'))
+    except ValueError:
+        abort(404, description = 'Неправильные параметры')
+
+    assignments = Assignment.query.filter_by(task_id=task_id, deadline=deadline).all()
+    if not assignments:
+        abort(404, description = 'Неправильные параметры')
+    return render_template('teachers/a_table.html', assignments=assignments)

@@ -16,6 +16,11 @@
   --transition: 0.2s ease;
 }
 
+
+.nav1 {
+  display: inline-block;
+}
+
 /* Обертка информации */
 .info-wrapper {
   max-width: 680px;
@@ -178,3 +183,66 @@
   color: inherit;       /* Наследуем цвет текста */
   display: block;      /* Чтобы ссылка вела себя как блок */
 }
+
+.table-wrapper {
+  margin: 2.5rem auto;
+  padding: 0 1rem;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+}
+
+.table-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.table-header h1 {
+  margin: 0;
+  font-size: 1.5rem;
+  color: var(--text-main);
+}
+
+.table-container {
+  overflow-x: auto;
+  background: var(--bg-card);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+
+.assignments-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  font-size: 0.95rem;
+}
+
+.assignments-table th,
+.assignments-table td {
+  padding: 0.9rem 1rem;
+  border-bottom: 1px solid var(--border);
+  vertical-align: middle;
+}
+
+.assignments-table th {
+  background: #f8fafc;
+  font-weight: 600;
+  color: var(--text-main);
+  text-transform: uppercase;
+  font-size: 0.8rem;
+  letter-spacing: 0.05em;
+}
+
+.assignments-table tr:last-child td {
+  border-bottom: none;
+}
+
+.assignments-table tbody tr:hover td {
+  background: #f8fafc;
+  transition: background var(--transition);
+}
+
+.text-muted { color: var(--text-muted); }
+.grade { font-weight: 700; color: var(--text-main); }

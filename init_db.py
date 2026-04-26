@@ -1,12 +1,11 @@
 from app import create_app, db
 import app.models as mod
 
-def new_user(name:str):
+def new_user(login:str, name:str, role:str):
     # Проверяем, нет ли уже такого пользователя
-    if not mod.User.query.filter_by(username=name).first():
+    if not mod.User.query.filter_by(username=login).first():
         pw = '123'
-        role = mod.UserRole.TEACHER if name.startswith('t') else mod.UserRole.STUDENT
-        user = mod.User(username=name, password=pw, role=role)
+        user = mod.User(username=login, password=pw, role=role, name=name)
         db.session.add(user)
         db.session.commit()
         print(f"Пользователь {user.username} создан!")
@@ -14,10 +13,18 @@ def new_user(name:str):
         print("Пользователь уже существует.")
 
 
+users = [
+    ['s1', 'Смирнов Андрей Викторович', mod.UserRole.STUDENT],
+    ['s2', 'Кузнецова Мария Александровна', mod.UserRole.STUDENT],
+    ['s3', 'Михайлов Дмитрий Сергеевич', mod.UserRole.STUDENT],
+    ['s4', 'Васильева Анна Игоревна', mod.UserRole.STUDENT],
+    ['t1', 'Попов Алексей Николаевич', mod.UserRole.TEACHER],
+]
+
 app = create_app()
 # Входим в контекст приложения, чтобы SQLAlchemy знал настройки БД
 with app.app_context():
     # На всякий случай создаем таблицы, если их нет
     db.create_all()
-    for n in ('t1', 's1', 's2', 's3'):
-        new_user(n)
+    for u in users:
+        new_user(*u)

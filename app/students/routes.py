@@ -19,7 +19,7 @@ def for_student(func):
 @login_required
 @for_student
 def profile():
-    new = Assignment.query.filter_by(user_id=current_user.id, state=AssignmentState.ISSUED)
+    new = Assignment.query.filter_by(user_id=current_user.id, state=AssignmentState.ISSUED).all()
     return render_template('students/assignments.html', new=new)
 
 

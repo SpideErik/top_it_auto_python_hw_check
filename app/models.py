@@ -15,6 +15,7 @@ class User(db.Model, UserMixin):
     username = db.Column(db.String(50), unique=True, nullable=False)
     password = db.Column(db.String(100), nullable=False)
     role = db.Column(db.Enum(UserRole), default=UserRole.STUDENT, nullable=False)
+    name = db.Column(db.String(100), nullable=False)
     assignments = db.relationship('Assignment', backref='user', lazy='select')
 
 
@@ -33,6 +34,15 @@ class AssignmentState(enum.Enum):
     FINISHED = 'finished' # задание выполнено, оценка получена
     EXPIRED = 'expired' # задание просрочено
 
+    @property
+    def label(self):
+        labels = {
+            AssignmentState.ISSUED: "Выдано",
+            AssignmentState.UNCHECKED: "Не проверено",
+            AssignmentState.FINISHED: "Завершено",
+            AssignmentState.EXPIRED: "Просрочено",
+        }
+        return labels.get(self, self.name)
 
 class Assignment(db.Model):
     __tablename__ = 'assignments'
@@ -43,6 +53,7 @@ class Assignment(db.Model):
     state = db.Column(db.Enum(AssignmentState), default=AssignmentState.ISSUED, nullable=False)
     issued = db.Column(db.Date, default=date.today)
     deadline = db.Column(db.Date)
+    submitted = db.Column(db.Date)
     answer_code = db.Column(db.Text)
     tests_result = db.Column(db.Text)
     grade = db.Column(db.String(10))

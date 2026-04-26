@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+
+{% block navigation %}
+    <div class="nav1">
+        <a href="{{ url_for('teachers.profile') }}" class="btn btn-blue">
+            Назначенные задания
+        </a>
+    </div>
+    <div class="nav1">
+        <a href="{{ url_for('teachers.task_list') }}" class="btn btn-blue">
+            Управление задачами
+        </a>
+    </div>
+
+{% endblock %}
+
+{% block content %}
+<div class="table-wrapper">
+    <div class="table-header">
+        <h1>Назначения по задаче: {{ assignments[0].task.title }} <br>
+            Срок сдачи: {{ assignments[0].deadline }}</h1>
+    </div>
+    <div class="table-container">
+        <table class="assignments-table">
+            <thead>
+                <tr>
+                    <th>Студент</th>
+                    <th>Статус</th>
+                    <th>Дата сдачи</th>
+                    <th>Оценка</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for assign in assignments %}
+                <tr>
+                    <td>{{ assign.user.name }}</td>
+                    <td>{{ assign.state.label }}</td>
+                    <td>
+                        {% if assign.submitted %}
+                            {{ assign.submitted.strftime('%d.%m.%Y %H:%M') }}
+                        {% else %}
+                            <span class="text-muted">—</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if assign.grade is not none %}
+                            <span class="grade">{{ assign.grade }}</span>
+                        {% elif assign.submitted %}
+                             <a href="{{ url_for('check', assignment_id=assign.id) }}" class="btn btn-blue">
+                                Проверить
+                             </a>
+                        {% else %}
+                            <span class="text-muted">—</span>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}
