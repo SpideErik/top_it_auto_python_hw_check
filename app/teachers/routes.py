@@ -7,6 +7,7 @@ from sqlalchemy import select
 from . import teachers_bp
 from .. import db
 from ..models import User, UserRole, Task, Assignment, AssignmentState
+import app.checker as chk
 
 
 def for_teacher(func):
@@ -61,10 +62,9 @@ def new_task():
             return render_template('teachers/new_task.html')
 
         # Проверка синтаксиса Python (защита от битых файлов)
-        try:
-            ast.parse(test_content)
-        except SyntaxError as e:
-            flash(f'Ошибка синтаксиса в тесте: {e.msg} (строка {e.lineno})', 'error')
+        res, msg = chk.check_syntax(test_content)
+        if not res:
+            flash(msg, 'error')
             return render_template('teachers/new_task.html')
 
         # Сохраняем в БД
