@@ -25,7 +25,6 @@
                 <div class="task-body">
                     <p class="task-preview">{{ task.description | truncate(180) }}</p>
                     <div class="task-meta">
-                        <small>Тестовый код: {{ task.test_code | length }} симв.</small>
                         {% if task.assignments is defined %}
                             <small>Назначений: {{ task.assignments | length }}</small>
                         {% endif %}
