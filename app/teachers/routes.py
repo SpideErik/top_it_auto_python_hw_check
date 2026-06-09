@@ -7,7 +7,6 @@ from sqlalchemy import select
 from . import teachers_bp
 from .. import db
 from ..models import User, UserRole, Task, Assignment, AssignmentState
-import app.checker as chk
 
 
 def for_teacher(func):
