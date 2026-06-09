@@ -10,6 +10,7 @@
 <div class="form-wrapper">
     <h1>Загрузить ответ</h1>
     <form method="POST" enctype="multipart/form-data">
+        <input type="hidden" name="assignment_id" value="{{ assignment.id }}">
         <div class="form-group">
             <label for="test_file">Файл с ответом</label>
             <input type="file" id="test_file" name="test_file" accept=".py" required>

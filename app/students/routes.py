@@ -3,6 +3,7 @@ from flask import flash, redirect, url_for, render_template, request, abort
 from flask_login import login_required, current_user
 from . import students_bp
 from ..models import User, UserRole, Task, Assignment, AssignmentState
+import app.checker as chk
 
 
 def for_student(func):
@@ -28,7 +29,28 @@ def profile():
 @for_student
 def solve():
     if request.method == 'POST':
-        return 'TODO'
+        test_file = request.files.get('test_file')
+        assignment_id = int(request.form.get('assignment_id'))
+        assignment = Assignment.query.get_or_404(assignment_id, 'Задание не выбрано или не существует')
+
+        if not test_file or test_file.filename == '':
+            flash('выберите файл.', 'error')
+            return render_template('students/solve.html', assignment=assignment)
+
+        # Читаем содержимое файла
+        try:
+            test_content = test_file.read().decode('utf-8')
+        except UnicodeDecodeError:
+            flash('Файл должен быть сохранён в кодировке UTF-8.', 'error')
+            return render_template('students/solve.html', assignment=assignment)
+
+        # Запускаем тесты
+        # TODO убрать подвисание
+        res = chk.run_student_tests(test_content, assignment.task.test_code)
+        # TODO запись результата в ДБ
+        flash('Задание успешно проверено ' + str(res), 'success')
+        return redirect(url_for('students.profile'))
+
     assignment_id = request.args.get('assignment_id')
     if not assignment_id:
         abort(404, description = 'Задание не выбрано или не существует')
