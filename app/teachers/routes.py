@@ -61,12 +61,6 @@ def new_task():
             flash('Файл должен быть сохранён в кодировке UTF-8.', 'error')
             return render_template('teachers/new_task.html')
 
-        # Проверка синтаксиса Python (защита от битых файлов)
-        res, msg = chk.check_syntax(test_content)
-        if not res:
-            flash(msg, 'error')
-            return render_template('teachers/new_task.html')
-
         # Сохраняем в БД
         task = Task(
             title=title,
@@ -105,7 +99,7 @@ def new_assignment():
         )
         user_ids = db.session.execute(stmt).scalars().all()
         if not user_ids:
-            flash('Эта задача уже назначена всем студентам', 'info')
+            flash('Эта задача уже назначена всем студентам', 'error')
             return redirect(url_for('teachers.task_list'))
 
         assignments_to_add = [

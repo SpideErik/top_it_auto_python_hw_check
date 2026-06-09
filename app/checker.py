@@ -118,7 +118,6 @@ def code_wrapper(src, allowed_builtins, allowed_modules, inp, queue):
             exec(code, {"__builtins__": safe}, {})
         queue.put((True, out.getvalue(), err.getvalue()))
     except Exception as e:
-        print(e)
         queue.put((False, '', 'Сбой при выполнении'))
 
 
@@ -132,6 +131,32 @@ def run_student_code(code, inp, timeout=2.0):
         p.join()
         return False, "Превышено время исполнения"
     return q.get()
+
+def run_student_tests(code: str, tests:str):
+    lines = tests.splitlines()
+    result = []
+    i = 0
+    while i < len(lines):
+        inp = ''
+        while i < len(lines):
+            if not lines[i].strip():
+                i += 1
+                break
+            inp += lines[i] + '\n'
+            i += 1
+        out = ''
+        while i < len(lines):
+            if not lines[i].strip():
+                i += 1
+                break
+            out += lines[i] + '\n'
+            i += 1
+        test_res = run_student_code(code, inp, 2.0)
+        if not test_res[0]:
+            result.append(test_res)
+        else:
+            result.append((test_res[1] == out and test_res[2] == '', test_res[1], test_res[2]))
+    return result
 
 
 if __name__ == '__main__':
@@ -147,6 +172,9 @@ if __name__ == '__main__':
         print('Ошибки проверки:')
         print('\n'.join(r[1]))
         exit()
-    print('Запуск кода')
-    r = run_student_code(src, "1\n2\n")
+    fn = askopenfilename(filetypes=[("тесты", "*.txt")])
+    if not fn:
+        exit()
+    print('Запуск тестов')
+    r = run_student_tests(src, Path(fn).read_text('UTF8'))
     print(r)
